@@ -1,0 +1,13 @@
+cryptography
+aiomysql
+fastapi
+tortoise-orm
+tortoise
+marshmallow
+python-dotenv
+selenium
+beautifulsoup4
+pytest
+uvicorn
+asgi_lifespan
+pyjwt
