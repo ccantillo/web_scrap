@@ -240,6 +240,7 @@ async def execute_test_case():
 
 
 async def fill_information(persona_ids):
+    print('la informacion esta siendo procesada y guarda en base de datos, esperar un momento hasta que termine')
     inputs = [(
               '/html/body/app-root/app-expel-filtros-busqueda/expel-sidenav/mat-sidenav-container/mat-sidenav-content/section/form/div[2]/mat-form-field[1]/div[1]/div/div[2]/input',
               'demandante'),
@@ -258,3 +259,5 @@ async def fill_information(persona_ids):
             end_time = time.time()
             execution_time = end_time - start_time
             print(f"Execution time: {execution_time} seconds")
+
+    print('La informacion ha sido completamente guardada en base de datos')
