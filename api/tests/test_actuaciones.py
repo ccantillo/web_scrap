@@ -26,7 +26,7 @@ async def client():
 
 @pytest.mark.anyio
 async def test_get_actuaciones(client: AsyncClient):  # nosec
-    response = await client.get("/api/actuaciones", headers=headers)
+    response = await client.get(f"/api/actuaciones?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -35,7 +35,7 @@ async def test_get_actuaciones(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_actuacion(client: AsyncClient):  # nosec
-    response = await client.get("/api/actuaciones/1", headers=headers)
+    response = await client.get(f"/api/actuaciones/1?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -44,7 +44,7 @@ async def test_get_actuacion(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_actuacion_not_found_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/actuaciones/0515156262", headers=headers)
+    response = await client.get(f"/api/actuaciones/0515156262?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 404, response.text
     data = response.json()
     data = data.get('detail')
@@ -55,7 +55,7 @@ async def test_get_actuacion_not_found_id(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_actuacion_invalid_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/actuaciones/vsvdsvsd", headers=headers)
+    response = await client.get(f"/api/actuaciones/vsvdsvsd?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 422, response.text
 
 

@@ -37,3 +37,6 @@
 - `/api/llenar_informacion/{persona_id}` - GET: Permite llenar información con los datos de la persona que se pase en el endpoint.
 
 - Para más información sobre los endpoints, al momento de ejecutar el API, se podrá acceder a la URL http://127.0.0.1:8000/docs donde podrás observar el Swagger UI con más información. Además, en el directorio raíz del proyecto encontrarás el archivo "datos_judiciales.postman_collection.json" que puedes usar para importar una colección de Postman con los endpoints y más información.
+
+### Tests:
+- Estando en el directorio `api`, ejecuta `python -m pytest tests/`

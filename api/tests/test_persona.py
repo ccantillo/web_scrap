@@ -27,7 +27,7 @@ async def client():
 
 @pytest.mark.anyio
 async def test_get_personas(client: AsyncClient):  # nosec
-    response = await client.get("/api/personas", headers=headers)
+    response = await client.get(f"/api/personas?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -36,7 +36,7 @@ async def test_get_personas(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_persona(client: AsyncClient):  # nosec
-    response = await client.get("/api/personas/0968599020001", headers=headers)
+    response = await client.get(f"/api/personas/0968599020001?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -50,7 +50,7 @@ async def test_get_persona(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_persona_not_found_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/personas/00051515", headers=headers)
+    response = await client.get(f"/api/personas/00051515?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 404, response.text
     data = response.json()
     data = data.get('detail')

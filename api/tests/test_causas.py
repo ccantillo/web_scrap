@@ -24,7 +24,7 @@ async def client():
 
 @pytest.mark.anyio
 async def test_get_causas(client: AsyncClient):  # nosec
-    response = await client.get("/api/causas", headers=headers)
+    response = await client.get(f"/api/causas?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -33,7 +33,7 @@ async def test_get_causas(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_causa(client: AsyncClient):  # nosec
-    response = await client.get("/api/causas/22", headers=headers)
+    response = await client.get(f"/api/causas/22?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -42,7 +42,7 @@ async def test_get_causa(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_causa_not_found_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/causas/051515", headers=headers)
+    response = await client.get(f"/api/causas/051515?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 404, response.text
     data = response.json()
     data = data.get('detail')
@@ -53,7 +53,7 @@ async def test_get_causa_not_found_id(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_causa_invalid_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/causas/vsvdsvsd", headers=headers)
+    response = await client.get(f"/api/causas/vsvdsvsd?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 422, response.text
 
 

@@ -26,7 +26,7 @@ async def client():
 
 @pytest.mark.anyio
 async def test_get_movimientos(client: AsyncClient):  # nosec
-    response = await client.get("/api/movimientos", headers=headers)
+    response = await client.get(f"/api/movimientos?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -35,7 +35,7 @@ async def test_get_movimientos(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_movimiento(client: AsyncClient):  # nosec
-    response = await client.get("/api/movimientos/17", headers=headers)
+    response = await client.get(f"/api/movimientos/17?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 200, response.text
     data = response.json()
     data = data.get('result')
@@ -44,7 +44,7 @@ async def test_get_movimiento(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_movimiento_not_found_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/movimientos/051515", headers=headers)
+    response = await client.get(f"/api/movimientos/051515?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 404, response.text
     data = response.json()
     data = data.get('detail')
@@ -55,7 +55,7 @@ async def test_get_movimiento_not_found_id(client: AsyncClient):  # nosec
 
 @pytest.mark.anyio
 async def test_get_movimiento_invalid_id(client: AsyncClient):  # nosec
-    response = await client.get("/api/movimientos/vsvdsvsd", headers=headers)
+    response = await client.get(f"/api/movimientos/vsvdsvsd?authorization={headers.get('Authorization')}", headers=headers)
     assert response.status_code == 422, response.text
 
 
