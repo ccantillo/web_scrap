@@ -1,7 +1,7 @@
 import hashlib
-from typing import List, Dict
+from typing import List, Dict, Optional
 
-from fastapi import Header, HTTPException
+from fastapi import Header, HTTPException, Request
 
 from resources.exceptions.exceptions import WrongPassword, DoesNotExist, Unauthorized
 from resources.models import User
@@ -81,8 +81,8 @@ def jwt_get_payload(token):
         return None
 
 
-async def user_auth(authorization: str = Header(...)):
-    token = authorization
+async def user_auth(request: Request, authorization: Optional[str]):
+    token = request.headers.get('Authorization') or request.headers.get('authorization') or request.query_params.get('authorization')
     if not token:
         raise HTTPException(status_code=401, detail='Token not found')
 

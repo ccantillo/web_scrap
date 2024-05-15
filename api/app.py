@@ -20,6 +20,7 @@ from resources.modules.movimiento import MovimientosModule
 from resources.modules.persona import PersonasModule
 from resources.modules.users import UsersModule
 from resources.modules.web_scrap import fill_information
+from fastapi.openapi.utils import get_openapi
 
 load_dotenv()
 
@@ -62,6 +63,22 @@ app.include_router(actuaciones_router)
 app.include_router(causas_router)
 app.include_router(movimientos_router)
 app.include_router(web_scrap_router)
+
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="FastAPI",
+        version="0.1.0",
+        description="This is a very fancy project, with auto docs for the API and everything",
+        routes=app.routes,
+    )
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 
 @app.on_event("startup")

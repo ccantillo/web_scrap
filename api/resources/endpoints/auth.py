@@ -1,4 +1,5 @@
 import hashlib
+import os
 from typing import Optional
 
 from fastapi import APIRouter
@@ -10,8 +11,8 @@ from pydantic import BaseModel
 
 
 class PayloadModel(BaseModel):
-    username: str
-    password: str | None = None
+    username: str = os.getenv('initial_username')
+    password: str | None = os.getenv('initial_password')
 
 
 auth_router = APIRouter()
