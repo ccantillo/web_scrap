@@ -127,23 +127,26 @@ async def process_links_batches(driver, process_links, query_type, person_id):
 
 
 async def scrape_page(page, input, person_id, query_type=None):
-    driver = setup_driver()
-    load_page(driver, person_id, input, 5)
+    try:
+        driver = setup_driver()
+        load_page(driver, person_id, input, 5)
 
-    wait_for_element(driver, By.CLASS_NAME, 'causa-individual')
+        wait_for_element(driver, By.CLASS_NAME, 'causa-individual')
 
-    for j in range(page):
-        next_button = wait_for_element(driver, By.CLASS_NAME, 'mat-mdc-paginator-navigation-next')
-        next_button.click()
-        time.sleep(0.5)
+        for j in range(page):
+            next_button = wait_for_element(driver, By.CLASS_NAME, 'mat-mdc-paginator-navigation-next')
+            next_button.click()
+            time.sleep(0.5)
 
-    wait_for_element(driver, By.CLASS_NAME, 'causa-individual')
+        wait_for_element(driver, By.CLASS_NAME, 'causa-individual')
 
-    process_links = driver.find_elements(By.CLASS_NAME, 'causa-individual')
-    process_links_results = await process_links_batches(driver, process_links, query_type, person_id)
-    driver.quit()
-    print(f'finishing page {page}')
-    return process_links_results
+        process_links = driver.find_elements(By.CLASS_NAME, 'causa-individual')
+        process_links_results = await process_links_batches(driver, process_links, query_type, person_id)
+        driver.quit()
+        print(f'finishing page {page}')
+        return process_links_results
+    except Exception as e:
+        return []
 
 
 def retry_element(driver, by, element, retries):
@@ -187,29 +190,34 @@ async def calculate_pages(driver):
 
 
 async def generate_pages_threads(input, person_id, query_type, save):
-    driver = setup_driver()
-    load_page(driver, person_id, input, 5)
-    wait_for_element(driver, By.CLASS_NAME, 'cantidadMovimiento')
+    try:
+        driver = setup_driver()
+        load_page(driver, person_id, input, 5)
+        wait_for_element(driver, By.CLASS_NAME, 'cantidadMovimiento')
 
-    pages_quantity = await calculate_pages(driver)
-    driver.quit()
+        pages_quantity = await calculate_pages(driver)
+        driver.quit()
 
-    queries = [(page, input, person_id, query_type) for page in range(pages_quantity)]
+        queries = [(page, input, person_id, query_type) for page in range(pages_quantity)]
 
-    results = []
-    loop = asyncio.get_event_loop()
+        results = []
+        loop = asyncio.get_event_loop()
 
-    with ThreadPoolExecutor(max_workers=17) as executor:
-        tasks = [loop.run_in_executor(executor, run_scraping, *query) for query in queries]
-        results.append(await asyncio.gather(*tasks))
+        with ThreadPoolExecutor(max_workers=17) as executor:
+            tasks = [loop.run_in_executor(executor, run_scraping, *query) for query in queries]
+            results.append(await asyncio.gather(*tasks))
 
-    if save:
-        for result in results:
-            for batch in result:
-                await save_info(batch, person_id)
+        if save:
+            for result in results:
+                for batch in result:
+                    if not batch:
+                        continue
+                    await save_info(batch, person_id)
 
-    await asyncio.sleep(5)
-    return results
+        await asyncio.sleep(5)
+        return results
+    except Exception as e:
+        return
 
 
 async def execute_test_case():
