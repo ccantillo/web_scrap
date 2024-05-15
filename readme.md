@@ -4,9 +4,10 @@
 - Python 3.11.0
 - MySQL
 - FastApi
-- selenium
+- Selenium
 - BS4
-- uvicorn
+- Uvicorn
+- Tortoise ORM
 
 ## Instalación
 1. Clona el repositorio.
