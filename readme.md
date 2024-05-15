@@ -3,6 +3,10 @@
 ## Stack:
 - Python 3.11.0
 - MySQL
+- FastApi
+- selenium
+- BS4
+- uvicorn
 
 ## Instalación
 1. Clona el repositorio.
@@ -20,6 +24,7 @@
 - El servidor se iniciará en http://127.0.0.1:8000
 
 ### Endpoints:
+- `/api/login` - POST: login de la api, el usuario inicial es username: admin password: P@ssW0rd (usuario creado automaticamente al momento de iniciar el api).
 - `/api/personas` - GET: Trae lista de personas en la base de datos.
 - `/api/personas/{persona_id}` - GET: Trae detalles de una persona.
 - `/api/actuaciones` - GET: Trae lista de actuaciones en la base de datos.
