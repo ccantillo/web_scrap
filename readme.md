@@ -11,7 +11,6 @@
 ## Instalación
 1. Clona el repositorio.
 2. Instala las dependencias:
-    - Entra a la carpeta del API (`cd /api`)
     - Ejecuta `pip install -r requirements.txt`
 
 ## Ejecutar el API
